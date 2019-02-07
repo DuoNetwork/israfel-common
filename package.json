@@ -1,0 +1,61 @@
+{
+	"name": "@finbook/israfel-common",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Israfel Common",
+	"author": "FinBook Pte Ltd",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"test": "jest",
+		"prebuild": "rimraf dist",
+		"build": "tsc",
+		"postbuild": "npm pack",
+		"tslint": "tslint -c tslint.json -p tsconfig.json src/**/*.ts{,x} --fix"
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"roots": [
+			"<rootDir>/src"
+		],
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js",
+			"jsx",
+			"json",
+			"node"
+		]
+	},
+	"devDependencies": {
+		"@0x/types": "^1.5.2",
+		"@babel/polyfill": "^7.2.5",
+		"@types/jest": "^23.3.12",
+		"@types/ws": "^6.0.1",
+		"coveralls": "^3.0.2",
+		"jest": "^23.6.0",
+		"pre-commit": "^1.2.2",
+		"ts-jest": "^23.10.5",
+		"tslint": "^5.12.1",
+		"typescript": "^3.1.6"
+	},
+	"dependencies": {
+		"0x.js": "^3.0.2",
+		"@0x/contract-addresses": "^2.2.1",
+		"@0x/web3-wrapper": "^3.2.4",
+		"@finbook/duo-market-data": "^1.0.0",
+		"bip39": "^2.5.0",
+		"ethereumjs-wallet": "^0.6.3",
+		"ethers": "^4.0.23",
+		"isomorphic-ws": "^4.0.1",
+		"moment": "^2.24.0",
+		"web3-eth": "1.0.0-beta.37",
+		"web3-eth-accounts": "1.0.0-beta.37",
+		"web3-eth-personal": "1.0.0-beta.37",
+		"ws": "^6.1.3"
+	}
+}
