@@ -71,7 +71,7 @@ test('toChecksumAddress', () => {
 });
 
 test('createRawOrder, cannot sign', async () => {
-	const web3Util = new Web3Util(null, false, '', CST.PROVIDER_INFURA_KOVAN);
+	const web3Util = new Web3Util(null, CST.PROVIDER_INFURA_KOVAN, '', false);
 	// console.log(web3Util);
 	web3Util.wallet = Wallet.None;
 	try {
@@ -90,7 +90,7 @@ test('createRawOrder, cannot sign', async () => {
 });
 
 test('createRawOrder', async () => {
-	const web3Util = new Web3Util(null, false, '', CST.PROVIDER_INFURA_KOVAN);
+	const web3Util = new Web3Util(null, CST.PROVIDER_INFURA_KOVAN, '', false);
 	web3Util.wallet = Wallet.MetaMask;
 	Web3Util.createRawOrderWithoutSalt = jest.fn(
 		() =>

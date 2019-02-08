@@ -42,7 +42,7 @@ export class Web3Util {
 	public contractAddresses: ContractAddresses;
 	public readonly relayerAddress: string;
 
-	constructor(window: any, live: boolean, mnemonic: string, providerUrl: string) {
+	constructor(window: any, providerUrl: string, mnemonic: string, live: boolean) {
 		this.networkId = live ? CST.NETWORK_ID_MAIN : CST.NETWORK_ID_KOVAN;
 		if (window && (window.ethereum || window.web3)) {
 			this.rawMetamaskProvider = window.ethereum || window.web3.currentProvider;
