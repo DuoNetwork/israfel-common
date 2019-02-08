@@ -42,7 +42,7 @@ export class Web3Util {
 	public contractAddresses: ContractAddresses;
 	public readonly relayerAddress: string;
 
-	constructor(window: any, live: boolean, mnemonic: string, local: boolean) {
+	constructor(window: any, live: boolean, mnemonic: string, providerUrl: string) {
 		this.networkId = live ? CST.NETWORK_ID_MAIN : CST.NETWORK_ID_KOVAN;
 		if (window && (window.ethereum || window.web3)) {
 			this.rawMetamaskProvider = window.ethereum || window.web3.currentProvider;
@@ -51,37 +51,21 @@ export class Web3Util {
 			this.wallet = Wallet.MetaMask;
 		} else {
 			const pe = new Web3ProviderEngine();
-			if (local) pe.addProvider(new RPCSubprovider(CST.PROVIDER_LOCAL));
-			else {
-				let infura = {
-					token: ''
-				};
-				try {
-					infura = require('../../israfel-relayer/src/keys/infura.json');
-				} catch (error) {
-					console.log(error);
-				}
-				const infuraProvider =
-					(live ? CST.PROVIDER_INFURA_MAIN : CST.PROVIDER_INFURA_KOVAN) +
-					'/' +
-					infura.token;
-
-				if (!window && mnemonic) {
-					const mnemonicWallet = new MnemonicWalletSubprovider({
-						mnemonic: mnemonic,
-						baseDerivationPath: CST.BASE_DERIVATION_PATH
-					});
-					pe.addProvider(mnemonicWallet);
-					this.web3Eth = new Web3Eth(infuraProvider);
-				}
-
-				pe.addProvider(new RPCSubprovider(infuraProvider));
+			if (mnemonic) {
+				const mnemonicWallet = new MnemonicWalletSubprovider({
+					mnemonic: mnemonic,
+					baseDerivationPath: CST.BASE_DERIVATION_PATH
+				});
+				pe.addProvider(mnemonicWallet);
+				this.web3Eth = new Web3Eth(providerUrl);
 			}
+			pe.addProvider(new RPCSubprovider(providerUrl));
 			pe.start();
 			this.web3Wrapper = new Web3Wrapper(pe);
 			this.web3Accounts = new Web3Accounts(this.web3Wrapper.getProvider());
 			this.web3Personal = new Web3Personal(this.web3Wrapper.getProvider());
-			this.wallet = local || (!window && mnemonic) ? Wallet.Local : Wallet.None;
+			this.wallet =
+				providerUrl === CST.PROVIDER_LOCAL || mnemonic ? Wallet.Local : Wallet.None;
 		}
 
 		this.contractWrappers = new ContractWrappers(this.web3Wrapper.getProvider(), {

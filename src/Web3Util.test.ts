@@ -3,7 +3,7 @@ import '@babel/polyfill';
 
 import { Web3Wrapper } from '@0x/web3-wrapper';
 import { BigNumber } from 'bignumber.js';
-import { DUMMY_ADDR } from './constants';
+import { DUMMY_ADDR, PROVIDER_INFURA_KOVAN, PROVIDER_LOCAL } from './constants';
 import OrderUtil from './OrderUtil';
 import { Wallet } from './types';
 import Util from './Util';
@@ -126,7 +126,7 @@ test('constructor, with window, metaMask', () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.wallet).toMatchSnapshot();
 });
 
@@ -136,32 +136,32 @@ test('constructor, with window, metaMask, live', () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, true, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, true, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.wallet).toMatchSnapshot();
 });
 
 test('constructor, no window, local', () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', true);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_LOCAL);
 	expect(testWeb3Util.wallet).toMatchSnapshot();
 });
 
 test('constructor, no window, non local', () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.wallet).toMatchSnapshot();
 });
 
 test('constructor, no window, non local, live', () => {
-	const testWeb3Util = new Web3Util(null, true, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, true, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.wallet).toMatchSnapshot();
 });
 
 test('constructor, no window, non local, no mnemonic', () => {
-	const testWeb3Util = new Web3Util(null, false, '', false);
+	const testWeb3Util = new Web3Util(null, false, '', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.wallet).toMatchSnapshot();
 });
 
 test('onWeb3AccountUpdate', () => {
-	const testWeb3Util = new Web3Util(null, false, '', false);
+	const testWeb3Util = new Web3Util(null, false, '', PROVIDER_INFURA_KOVAN);
 	const handleOn = jest.fn();
 	testWeb3Util.rawMetamaskProvider = {
 		publicConfigStore: {
@@ -204,7 +204,7 @@ test('getTokenByCode', () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.tokens = [{ code: 'code' }] as any;
 	expect(testWeb3Util.getTokenByCode('code')).toMatchSnapshot();
 });
@@ -215,17 +215,17 @@ test('getProvider', () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.getProvider()).toMatchSnapshot();
 });
 
 test('getGasPrice', () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.getGasPrice()).toMatchSnapshot();
 });
 
 test('getTransactionCount', () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(testWeb3Util.getTransactionCount('addr')).toMatchSnapshot();
 });
 
@@ -235,7 +235,7 @@ test('getAvailableAddresses', async () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(await testWeb3Util.getAvailableAddresses()).toMatchSnapshot();
 });
 
@@ -245,7 +245,7 @@ test('matchOrders', async () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	const leftOrder = { leftOrder: 'leftOrder' } as any;
 	const rightOrder = { rightOrder: 'rightOrder' } as any;
 
@@ -261,7 +261,7 @@ test('getFilledTakerAssetAmount', async () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	await testWeb3Util.getFilledTakerAssetAmount('orderHash');
 	expect(
 		(testWeb3Util.contractWrappers.exchange.getFilledTakerAssetAmountAsync as jest.Mock).mock
@@ -275,7 +275,7 @@ test('web3PersonalSign, reject', async () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.wallet = Wallet.None;
 	try {
 		await testWeb3Util.web3PersonalSign('account', 'message');
@@ -290,7 +290,7 @@ test('web3PersonalSign', async () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	await testWeb3Util.web3PersonalSign('account', 'message');
 	expect((testWeb3Util.web3Personal.sign as jest.Mock).mock.calls).toMatchSnapshot();
 });
@@ -301,19 +301,19 @@ test('web3AccountsRecover, no web3Accounts', async () => {
 			currentProvider: 'provider'
 		}
 	} as any;
-	const testWeb3Util = new Web3Util(window, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(window, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.web3Accounts = null;
 	expect(await testWeb3Util.web3AccountsRecover('message', 'signature')).toMatchSnapshot();
 });
 
 test('web3AccountsRecover', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	await testWeb3Util.web3AccountsRecover('message', 'signature');
 	expect((testWeb3Util.web3Accounts.recover as jest.Mock).mock.calls).toMatchSnapshot();
 });
 
 test('setTokens', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	const tokens = [
 		{
 			custodian: 'custodian',
@@ -351,14 +351,14 @@ test('setTokens', async () => {
 });
 
 test('getCurrentAddress', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(await testWeb3Util.getCurrentAddress()).toMatchSnapshot();
 	testWeb3Util.accountIndex = 3;
 	expect(await testWeb3Util.getCurrentAddress()).toBe(DUMMY_ADDR);
 });
 
 test('getCurrentNetwork', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(await testWeb3Util.getCurrentNetwork()).toMatchSnapshot();
 });
 
@@ -379,7 +379,7 @@ const signedOrder = {
 	signature: 'signature'
 };
 test('validateOrder', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(
 		await testWeb3Util.validateOrder(OrderUtil.parseSignedOrder(signedOrder))
 	).toMatchSnapshot();
@@ -392,12 +392,12 @@ test('validateOrder', async () => {
 });
 
 test('getTokenAddressFromCode', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(await testWeb3Util.getTokenAddressFromCode('WETH')).toMatchSnapshot();
 });
 
 test('getTokenAddressFromCode, other token', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenByCode = jest.fn(
 		() =>
 			({
@@ -408,7 +408,7 @@ test('getTokenAddressFromCode, other token', async () => {
 });
 
 test('setUnlimitedTokenAllowance, no tokenAddress', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	try {
 		await testWeb3Util.setUnlimitedTokenAllowance('code', 'account', 'spender');
 	} catch (err) {
@@ -417,7 +417,7 @@ test('setUnlimitedTokenAllowance, no tokenAddress', async () => {
 });
 
 test('setUnlimitedTokenAllowance, with spender', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => 'tokenAddress');
 	await testWeb3Util.setUnlimitedTokenAllowance('code', 'account', 'spender');
 	expect(
@@ -427,7 +427,7 @@ test('setUnlimitedTokenAllowance, with spender', async () => {
 });
 
 test('setUnlimitedTokenAllowance, no spender', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => 'tokenAddress');
 	await testWeb3Util.setUnlimitedTokenAllowance('code', 'account');
 	expect(
@@ -437,12 +437,12 @@ test('setUnlimitedTokenAllowance, no spender', async () => {
 });
 
 test('getTokenAllowance, no tokenAddress', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(await testWeb3Util.getTokenAllowance('code', 'ownerAddr', 'spender')).toMatchSnapshot();
 });
 
 test('getTokenAllowance, with spender', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => 'tokenAddress');
 	Web3Util.fromWei = jest.fn();
 	await testWeb3Util.getTokenAllowance('code', 'ownerAddr', 'spender');
@@ -452,7 +452,7 @@ test('getTokenAllowance, with spender', async () => {
 });
 
 test('getTokenAllowance, no spender', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => 'tokenAddress');
 	Web3Util.fromWei = jest.fn();
 	await testWeb3Util.getTokenAllowance('code', 'ownerAddr');
@@ -462,7 +462,7 @@ test('getTokenAllowance, no spender', async () => {
 });
 
 test('getEthBalance', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	Web3Util.fromWei = jest.fn();
 	await testWeb3Util.getEthBalance('address');
 	expect(
@@ -471,7 +471,7 @@ test('getEthBalance', async () => {
 });
 
 test('getTokenBalance, with tokenAddress', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => 'tokenAddress');
 	Web3Util.fromWei = jest.fn();
 	await testWeb3Util.getTokenBalance('code', 'address');
@@ -481,7 +481,7 @@ test('getTokenBalance, with tokenAddress', async () => {
 });
 
 test('getTokenBalance, no tokenAddress', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => '');
 	Web3Util.fromWei = jest.fn();
 
@@ -489,7 +489,7 @@ test('getTokenBalance, no tokenAddress', async () => {
 });
 
 test('wrapEther', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.contractAddresses = {
 		etherToken: 'etherTokenAddress'
 	} as any;
@@ -501,7 +501,7 @@ test('wrapEther', async () => {
 });
 
 test('unwrapEther', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.contractAddresses = {
 		etherToken: 'etherTokenAddress'
 	} as any;
@@ -513,7 +513,7 @@ test('unwrapEther', async () => {
 });
 
 test('validateOrderFillable', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(
 		await testWeb3Util.validateOrderFillable(OrderUtil.parseSignedOrder(signedOrder))
 	).toBeTruthy();
@@ -524,24 +524,24 @@ test('validateOrderFillable', async () => {
 });
 
 test('isValidPair, codes.length wrong', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	expect(await testWeb3Util.isValidPair('code1|code2|code3')).toBeFalsy();
 });
 
 test('isValidPair, no token', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenByCode = jest.fn(() => '' as any);
 	expect(await testWeb3Util.isValidPair('code1|code2')).toBeFalsy();
 });
 
 test('isValidPair, inValidPair1', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenByCode = jest.fn(() => ({} as any));
 	expect(await testWeb3Util.isValidPair('code1|code2')).toBeFalsy();
 });
 
 test('isValidPair, inValidPair2', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenByCode = jest.fn(
 		() =>
 			({
@@ -554,7 +554,7 @@ test('isValidPair, inValidPair2', async () => {
 });
 
 test('isValidPair, inValidPair3', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	Util.getUTCNowTimestamp = jest.fn(() => 1234567890000);
 	testWeb3Util.getTokenByCode = jest.fn(
 		() =>
@@ -572,7 +572,7 @@ test('isValidPair, inValidPair3', async () => {
 });
 
 test('isValidPair, validPair', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenByCode = jest.fn(
 		() =>
 			({
@@ -588,7 +588,7 @@ test('isValidPair, validPair', async () => {
 });
 
 test('awaitTransactionSuccessAsync', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	await testWeb3Util.awaitTransactionSuccessAsync('txHash');
 	expect(
 		(testWeb3Util.web3Wrapper.awaitTransactionSuccessAsync as jest.Mock).mock.calls
@@ -596,7 +596,7 @@ test('awaitTransactionSuccessAsync', async () => {
 });
 
 test('getTransactionReceipt', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	await testWeb3Util.getTransactionReceipt('txHash');
 	expect(
 		(testWeb3Util.web3Wrapper.getTransactionReceiptIfExistsAsync as jest.Mock).mock.calls
@@ -604,7 +604,7 @@ test('getTransactionReceipt', async () => {
 });
 
 test('tokenTransfer, sender === from', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => '0xtokenAddr');
 	Web3Wrapper.toBaseUnitAmount = jest.fn();
 	await testWeb3Util.tokenTransfer('code', 'fromAddr', 'toAddr', 'fromAddr', 1);
@@ -614,7 +614,7 @@ test('tokenTransfer, sender === from', async () => {
 });
 
 test('tokenTransfer, sender !== from', async () => {
-	const testWeb3Util = new Web3Util(null, false, 'mnemonic', false);
+	const testWeb3Util = new Web3Util(null, false, 'mnemonic', PROVIDER_INFURA_KOVAN);
 	testWeb3Util.getTokenAddressFromCode = jest.fn(() => '0xtokenAddr');
 	Web3Wrapper.toBaseUnitAmount = jest.fn();
 	await testWeb3Util.tokenTransfer('code', 'fromAddr', 'toAddr', 'senderAddr', 1);
