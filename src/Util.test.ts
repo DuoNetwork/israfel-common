@@ -64,19 +64,17 @@ test('getDates', () => {
 });
 
 test('getExpiryTimeStamp', () => {
-	Util.getUTCNowTimestamp = jest.fn(() => 1544519089000);
-	expect(Util.getExpiryTimestamp(false)).toBe(1544601600000);
-	expect(Util.getExpiryTimestamp(true)).toBe(1545984000000);
-	Util.getUTCNowTimestamp = jest.fn(() => 1544493600000);
-	expect(Util.getExpiryTimestamp(false)).toBe(1544515200000);
-	Util.getUTCNowTimestamp = jest.fn(() => 1556668800000);
-	expect(Util.getExpiryTimestamp(true)).toBe(1559289600000);
-	Util.getUTCNowTimestamp = jest.fn(() => 1564617600000);
-	expect(Util.getExpiryTimestamp(true)).toBe(1567152000000);
-	Util.getUTCNowTimestamp = jest.fn(() => 1546041600000);
-	expect(Util.getExpiryTimestamp(true)).toBe(1548403200000);
-	Util.getUTCNowTimestamp = jest.fn(() => 1546214400000);
-	expect(Util.getExpiryTimestamp(true)).toBe(1548403200000);
+	Util.getUTCNowTimestamp = jest.fn(() => 1544519089000); // 2018-12-11 9:04 UTC
+	expect(Util.getExpiryTimestamp(false)).toBe(1544601600000); // 2018-12-12 8:00 UTC
+	expect(Util.getExpiryTimestamp(true)).toBe(1544774400000); // 2018-12-14 8:00 UTC
+	Util.getUTCNowTimestamp = jest.fn(() => 1544493600000); // 2018-12-11 2:00 UTC
+	expect(Util.getExpiryTimestamp(false)).toBe(1544515200000); // 2018-12-11 8:00 UTC
+	Util.getUTCNowTimestamp = jest.fn(() => 1544760000000); // 2018-12-14 4:00 UTC
+	expect(Util.getExpiryTimestamp(true)).toBe(1544774400000); // 2018-12-14 8:00 UTC
+	Util.getUTCNowTimestamp = jest.fn(() => 1544760000001); // 2018-12-14 4:00:00.01 UTC
+	expect(Util.getExpiryTimestamp(true)).toBe(1545379200000); // 2018-12-21 8:00 UTC
+	Util.getUTCNowTimestamp = jest.fn(() => 1544832000000); // 2018-12-15 0:00 UTC
+	expect(Util.getExpiryTimestamp(true)).toBe(1545379200000); // 2018-12-21 8:00 UTC
 });
 
 test('sleep', async () => {

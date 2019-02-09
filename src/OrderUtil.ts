@@ -216,10 +216,10 @@ export class OrderUtil {
 		)
 			return CST.WS_INVALID_PX;
 
-		const monthExpTime = Math.ceil(Util.getExpiryTimestamp(true) / 1000);
+		const weekExpTime = Math.ceil(Util.getExpiryTimestamp(true) / 1000);
 		const dayExpTime = Math.ceil(Util.getExpiryTimestamp(false) / 1000);
 		if (
-			Number(stringSignedOrder.expirationTimeSeconds) !== monthExpTime &&
+			Number(stringSignedOrder.expirationTimeSeconds) !== weekExpTime &&
 			Number(stringSignedOrder.expirationTimeSeconds) !== dayExpTime
 		)
 			return CST.WS_INVALID_EXP;
