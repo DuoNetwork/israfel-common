@@ -83,14 +83,11 @@ export class Util {
 		return dates;
 	}
 
-	public static getMonthEndExpiry(timestamp: number) {
-		const dateObj = moment
-			.utc(timestamp)
-			.endOf('month')
-			.startOf('day');
+	public static getWeekExpiry(timestamp: number) {
+		const dateObj = moment.utc(timestamp).startOf('day');
 		const day = dateObj.day();
-		if (day === 6) dateObj.subtract(1, 'day');
-		else if (day < 5) dateObj.subtract(day + 2, 'day');
+		if (day === 6) dateObj.add(6, 'day');
+		else dateObj.add(5 - day, 'day');
 
 		dateObj.add(8, 'hour');
 
@@ -104,18 +101,12 @@ export class Util {
 		return dateObj.valueOf();
 	}
 
-	public static getExpiryTimestamp(isMonth: boolean) {
+	public static getExpiryTimestamp(isWeek: boolean) {
 		const now = this.getUTCNowTimestamp();
-		if (isMonth) {
-			const thisMonthEndExpiry = this.getMonthEndExpiry(now);
-			if (now > thisMonthEndExpiry - 4 * 3600000)
-				return this.getMonthEndExpiry(
-					moment
-						.utc(thisMonthEndExpiry)
-						.add(1, 'week')
-						.valueOf()
-				);
-			return thisMonthEndExpiry;
+		if (isWeek) {
+			const thisWeekExpiry = this.getWeekExpiry(now);
+			if (now > thisWeekExpiry - 4 * 3600000) return thisWeekExpiry + 7 * 86400000;
+			return thisWeekExpiry;
 		} else {
 			const todayExpiry = this.getDayExpiry(now);
 			if (now > todayExpiry - 4 * 3600000) return todayExpiry + 24 * 3600000;
