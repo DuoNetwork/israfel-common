@@ -200,6 +200,7 @@ export class OrderUtil {
 		if (!orderHash) return CST.WS_INVALID_ORDER;
 		const liveOrder = this.constructNewLiveOrder(stringSignedOrder, token, pair, orderHash);
 		if (
+			liveOrder.amount < token.denomination ||
 			Number(
 				new BigNumber(Util.round(liveOrder.amount))
 					.mod(new BigNumber(token.denomination))
@@ -208,6 +209,7 @@ export class OrderUtil {
 		)
 			return CST.WS_INVALID_AMT;
 		if (
+			liveOrder.price < token.precisions[code2] ||
 			Number(
 				new BigNumber(Util.round(liveOrder.price))
 					.mod(new BigNumber(token.precisions[code2]))
