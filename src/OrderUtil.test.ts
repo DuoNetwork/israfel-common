@@ -392,6 +392,18 @@ test('validateOrder invalid amount', async () => {
 			signedOrder
 		)
 	).toBe(CST.WS_INVALID_AMT);
+	expect(
+		await OrderUtil.validateOrder(
+			{
+				validateOrder: validateOrder
+			} as any,
+			'code1|code2',
+			{
+				denomination: 2.2
+			} as any,
+			signedOrder
+		)
+	).toBe(CST.WS_INVALID_AMT);
 	expect(validateOrder).toBeCalled();
 	expect(OrderUtil.constructNewLiveOrder as jest.Mock).toBeCalled();
 });
@@ -416,6 +428,21 @@ test('validateOrder invalid price', async () => {
 				denomination: 1,
 				precisions: {
 					code2: 0.0005
+				}
+			} as any,
+			signedOrder
+		)
+	).toBe(CST.WS_INVALID_PX);
+	expect(
+		await OrderUtil.validateOrder(
+			{
+				validateOrder: validateOrder
+			} as any,
+			'code1|code2',
+			{
+				denomination: 1,
+				precisions: {
+					code2: 0.001
 				}
 			} as any,
 			signedOrder
